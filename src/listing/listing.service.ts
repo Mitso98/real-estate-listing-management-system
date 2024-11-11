@@ -75,12 +75,11 @@ export class ListingService {
     }
 
     remove(id: number): void {
-        const listing = this.listings.get(id);
-        if (!listing) {
-            throw new NotFoundException(`Listing with ID ${id} not found`);
+        if (!this.listings.has(id)) {
+          throw new NotFoundException(`Listing with ID ${id} not found`);
         }
         this.listings.delete(id);
-    }
+      }
 
   private loadDummyData(): void {
     if (
