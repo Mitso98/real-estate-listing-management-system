@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ListingController } from './listing.controller';
 import { ListingService } from './listing.service';
 import { CreateListingDto } from './dto/create-listing.dto';
-import { PaginationQueryDto } from './dto/pagination-query.dto';
+import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
 import { ListingEntity } from './entity/listing.entity';
 
 describe('ListingController', () => {

@@ -1,13 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { ListingEntity } from './entity/listing.entity';
-import { PaginationQueryDto } from './dto/pagination-query.dto';
-import { PaginatedResponseDto } from './dto/paginated-response.dto';
+import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
+import { PaginatedResponseDto } from '../general/dto/paginated-response.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ListingService {
+    
     private listings: Map<number, ListingEntity> = new Map();
     private idCounter = 1;
+    private readonly ENV: string;
+
+
+  constructor(private configService: ConfigService) {
+    this.ENV = this.configService.get<string>('ENV');
+    this.loadDummyData();
+  }
 
     create(createListingDto: CreateListingDto): ListingEntity {
         const newListing: ListingEntity = new ListingEntity(
@@ -39,5 +48,20 @@ export class ListingService {
                 hasPrevPage,
             },
         };
+    }
+
+    private loadDummyData(): void {
+        if(this.ENV === 'production') {
+            return;
+        }
+
+        for (let i = 1; i <= 10; i++) {
+            this.create({
+                title: `Dummy Listing ${i}`,
+                description: `Dummy Description ${i}`,
+                price: 100 * i,
+                location: `Dummy Location ${i}`,
+            });
+        }
     }
 }

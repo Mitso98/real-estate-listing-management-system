@@ -2,8 +2,8 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { ListingService } from './listing.service';
 import { ListingEntity } from './entity/listing.entity';
-import { PaginationQueryDto } from './dto/pagination-query.dto';
-import { PaginatedResponseDto } from './dto/paginated-response.dto';
+import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
+import { PaginatedResponseDto } from '../general/dto/paginated-response.dto';
 
 @Controller('listing')
 export class ListingController {
