@@ -4,6 +4,7 @@ import { ListingEntity } from './entity/listing.entity';
 import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
 import { PaginatedResponseDto } from '../general/dto/paginated-response.dto';
 import { ConfigService } from '@nestjs/config';
+import EnvironmentNames from 'src/general/enum/environment-names';
 
 @Injectable()
 export class ListingService {
@@ -51,7 +52,8 @@ export class ListingService {
     }
 
     private loadDummyData(): void {
-        if(this.ENV === 'production') {
+        if(this.ENV !== EnvironmentNames.DEVELOPMENT &&
+             this.ENV !== EnvironmentNames.TEST) {   
             return;
         }
 
