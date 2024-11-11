@@ -75,4 +75,24 @@ describe('ListingController', () => {
       expect(controller.findAll(paginationQuery)).toBe(result);
     });
   });
+
+  describe('findOne', () => {
+    it('should return a listing by ID', () => {
+      const id = '1';
+      const result: ListingEntity = {
+        id: 1,
+        title: 'Test Listing',
+        description: 'Test Description',
+        price: 100,
+        location: 'Test Location',
+        currency: 'USD',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      jest.spyOn(service, 'findOne').mockImplementation(() => result);
+
+      expect(controller.findOne(id)).toBe(result);
+    });
+  });
 });

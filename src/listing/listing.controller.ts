@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { ListingService } from './listing.service';
 import { ListingEntity } from './entity/listing.entity';
@@ -7,15 +7,22 @@ import { PaginatedResponseDto } from '../general/dto/paginated-response.dto';
 
 @Controller('listing')
 export class ListingController {
-    constructor(private readonly listingService: ListingService) {}
+  constructor(private readonly listingService: ListingService) {}
 
-    @Post()
-    create(@Body() createListingDto: CreateListingDto): ListingEntity {
-      return this.listingService.create(createListingDto);
-    }
+  @Post()
+  create(@Body() createListingDto: CreateListingDto): ListingEntity {
+    return this.listingService.create(createListingDto);
+  }
 
-    @Get()
-    findAll(@Query() paginationQuery: PaginationQueryDto): PaginatedResponseDto<ListingEntity> {
-      return this.listingService.findAll(paginationQuery);
-    }
+  @Get()
+  findAll(
+    @Query() paginationQuery: PaginationQueryDto,
+  ): PaginatedResponseDto<ListingEntity> {
+    return this.listingService.findAll(paginationQuery);
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): ListingEntity {
+    return this.listingService.findOne(+id);
+  }
 }
