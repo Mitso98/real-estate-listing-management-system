@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { ListingService } from './listing.service';
 import { ListingEntity } from './entity/listing.entity';
 import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
 import { PaginatedResponseDto } from '../general/dto/paginated-response.dto';
+import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Controller('listing')
 export class ListingController {
@@ -25,4 +26,17 @@ export class ListingController {
   findOne(@Param('id') id: string): ListingEntity {
     return this.listingService.findOne(+id);
   }
+
+  @Put(':id')
+    update(
+        @Param('id') id: string,
+        @Body() updateListingDto: UpdateListingDto,
+    ): ListingEntity {
+        return this.listingService.update(+id, updateListingDto);
+    }
+
+    @Delete(':id')
+    remove(@Param('id') id: string): void {
+        this.listingService.remove(+id);
+    }
 }

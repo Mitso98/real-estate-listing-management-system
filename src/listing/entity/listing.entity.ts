@@ -1,16 +1,18 @@
+import Currency from "src/general/enum/currency";
+
 export class ListingEntity {
     id: number;
     title: string;
     description: string;
     price: number;
-    currency: 'USD' | 'EGP';
+    currency: Currency;
     location: string;
     createdAt: Date;
     updatedAt: Date;
 
-    constructor(id: number, title: string, description: string, price: number, location: string, currency: 'USD' | 'EGP' = 'USD') {
-        if (currency !== 'USD' && currency !== 'EGP') {
-            throw new Error('Currency must be either USD or EGP');
+    constructor(id: number, title: string, description: string, price: number, location: string, currency: Currency.EGP | Currency.USD = Currency.USD) {
+        if (!Object.values(Currency).includes(currency)) {
+            throw new Error(`This currency "${currency}" is not supported`);
         }
         this.id = id;
         this.title = title;

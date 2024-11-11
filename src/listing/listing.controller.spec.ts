@@ -4,6 +4,7 @@ import { ListingService } from './listing.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
 import { ListingEntity } from './entity/listing.entity';
+import Currency from 'src/general/enum/currency';
 
 describe('ListingController', () => {
   let controller: ListingController;
@@ -45,7 +46,7 @@ describe('ListingController', () => {
         description: 'Test Description',
         price: 100,
         location: 'Test Location',
-        currency: 'USD',
+        currency: Currency.USD,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -85,7 +86,7 @@ describe('ListingController', () => {
         description: 'Test Description',
         price: 100,
         location: 'Test Location',
-        currency: 'USD',
+        currency: Currency.USD,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

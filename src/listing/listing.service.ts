@@ -5,6 +5,7 @@ import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
 import { PaginatedResponseDto } from '../general/dto/paginated-response.dto';
 import { ConfigService } from '@nestjs/config';
 import EnvironmentNames from 'src/general/enum/environment-names';
+import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Injectable()
 export class ListingService {
@@ -24,6 +25,7 @@ export class ListingService {
       createListingDto.description,
       createListingDto.price,
       createListingDto.location,
+      createListingDto.currency,
     );
     this.listings.set(this.idCounter++, newListing);
     return newListing;
@@ -55,12 +57,30 @@ export class ListingService {
   }
 
   findOne(id: number): ListingEntity {
-    const listing = this.listings.get(id);
-    if (!listing) {
-      throw new NotFoundException(`Listing with ID ${id} not found`);
-    }
-    return listing;
+        const listing = this.listings.get(id);
+        if (!listing) {
+        throw new NotFoundException(`Listing with ID ${id} not found`);
+        }
+        return listing;
   }
+
+    update(id: number, updateListingDto: UpdateListingDto): ListingEntity {
+        const listing = this.findOne(id);
+        listing.title = updateListingDto.title;
+        listing.description = updateListingDto.description;
+        listing.price = updateListingDto.price;
+        listing.currency = updateListingDto.currency;
+        listing.location = updateListingDto.location;
+        return listing;
+    }
+
+    remove(id: number): void {
+        const listing = this.listings.get(id);
+        if (!listing) {
+            throw new NotFoundException(`Listing with ID ${id} not found`);
+        }
+        this.listings.delete(id);
+    }
 
   private loadDummyData(): void {
     if (
