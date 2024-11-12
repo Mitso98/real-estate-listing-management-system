@@ -1,16 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ListingService } from './listing.service';
+import { ConfigService } from '@nestjs/config';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
 import { ListingEntity } from './entity/listing.entity';
-import Currency from 'src/general/enum/currency';
+import Currency from '../general/enum/currency';
 
 describe('ListingService', () => {
   let service: ListingService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ListingService],
+      providers: [
+        ListingService,
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn().mockReturnValue('test'),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<ListingService>(ListingService);
@@ -27,6 +36,7 @@ describe('ListingService', () => {
         description: 'Test Description',
         price: 100,
         location: 'Test Location',
+        currency: Currency.USD,
       };
       const result: ListingEntity = {
         id: 1,
@@ -47,7 +57,10 @@ describe('ListingService', () => {
 
   describe('findAll', () => {
     it('should return a paginated list of listings', () => {
-      const paginationQuery: PaginationQueryDto = new PaginationQueryDto(1, 10);
+      const paginationQuery: PaginationQueryDto = {
+        page: 1,
+        pageSize: 10,
+      };
       const result = {
         data: [],
         meta: {
@@ -81,6 +94,40 @@ describe('ListingService', () => {
       jest.spyOn(service, 'findOne').mockImplementation(() => result);
 
       expect(service.findOne(1)).toBe(result);
+    });
+  });
+
+  describe('update', () => {
+    it('should update a listing', () => {
+      const updateListingDto = {
+        title: 'Updated Listing',
+        description: 'Updated Description',
+        price: 200,
+        location: 'Updated Location',
+        currency: Currency.USD,
+      };
+      const result: ListingEntity = {
+        id: 1,
+        title: 'Updated Listing',
+        description: 'Updated Description',
+        price: 200,
+        location: 'Updated Location',
+        currency: Currency.USD,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      jest.spyOn(service, 'update').mockImplementation(() => result);
+
+      expect(service.update(1, updateListingDto)).toBe(result);
+    });
+  });
+
+  describe('remove', () => {
+    it('should remove a listing', () => {
+      jest.spyOn(service, 'remove').mockImplementation(() => undefined);
+
+      expect(service.remove(1)).toBe(undefined);
     });
   });
 });
