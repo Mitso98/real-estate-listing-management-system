@@ -82,7 +82,7 @@ This process will package your NestJS application into a Docker container and ru
 
 #### Get All Listings
 
-- **URL**: `/listings`
+- **URL**: `/listing`
 - **Method**: `GET`
 - **Description**: Retrieve a list of all real estate listings.
 - **Response**:
@@ -90,7 +90,7 @@ This process will package your NestJS application into a Docker container and ru
 
 #### Get Listing by ID
 
-- **URL**: `/listings/:id`
+- **URL**: `/listing/:id`
 - **Method**: `GET`
 - **Description**: Retrieve a single real estate listing by its ID.
 - **URL Params**: 
@@ -101,7 +101,7 @@ This process will package your NestJS application into a Docker container and ru
 
 #### Create a New Listing
 
-- **URL**: `/listings`
+- **URL**: `/listing`
 - **Method**: `POST`
 - **Description**: Create a new real estate listing.
 - **Request Body**:
@@ -115,7 +115,7 @@ This process will package your NestJS application into a Docker container and ru
 
 #### Update a Listing
 
-- **URL**: `/listings/:id`
+- **URL**: `/listing/:id`
 - **Method**: `PUT`
 - **Description**: Update an existing real estate listing.
 - **URL Params**: 
@@ -132,11 +132,11 @@ This process will package your NestJS application into a Docker container and ru
 
 #### Delete a Listing
 
-- **URL**: `/listings/:id`
+- **URL**: `/listing/:id`
 - **Method**: `DELETE`
 - **Description**: Delete a real estate listing.
 - **URL Params**: 
   - `id` (string): The ID of the listing.
 - **Response**:
-  - `200 OK`: Listing successfully deleted.
+  - `204 No Content`: Listing successfully deleted.
   - `404 Not Found`: Listing not found.
