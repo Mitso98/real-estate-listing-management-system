@@ -1,19 +1,19 @@
-import { IsOptional, IsString, IsNumber, IsEnum, IsNotEmpty } from 'class-validator';
+import { IsOptional, IsString, IsNumber, IsEnum, Max, Min } from 'class-validator';
 import Currency from 'src/general/enum/currency';
 
 export class UpdateListingDto {
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   title?: string;
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   description?: string;
 
   @IsOptional()
   @IsNumber()
+  @Min(1)
+  @Max(1000000000)
   price?: number;
 
   @IsOptional()
@@ -22,6 +22,5 @@ export class UpdateListingDto {
 
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   location?: string;
 }
