@@ -66,11 +66,18 @@ export class ListingService {
 
     update(id: number, updateListingDto: UpdateListingDto): ListingEntity {
         const listing = this.findOne(id);
+
+        // make sure if price exist currency should exist
+        if (updateListingDto.price && !updateListingDto.currency) {
+            throw new Error('Currency is required if price is provided');
+        }
+
         listing.title = updateListingDto.title;
         listing.description = updateListingDto.description;
         listing.price = updateListingDto.price;
         listing.currency = updateListingDto.currency;
         listing.location = updateListingDto.location;
+        
         return listing;
     }
 
