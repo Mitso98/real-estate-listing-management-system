@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { ListingEntity } from './entity/listing.entity';
 import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
@@ -114,7 +114,7 @@ export class ListingService {
 
     // make sure if price exist currency should exist
     if (updateListingDto.price && !updateListingDto.currency) {
-      throw new Error('Currency is required if price is provided');
+      throw new BadRequestException('Currency is required if price is provided');
     }
 
     listing.title = updateListingDto.title;
