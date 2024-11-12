@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import EnvironmentNames from 'src/general/enum/environment-names';
+import EnvironmentNames from '../general/enum/environment-names';
 
 export const validationSchema = Joi.object({
   PORT: Joi.number().default(3000),

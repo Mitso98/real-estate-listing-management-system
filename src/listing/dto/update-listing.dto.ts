@@ -1,5 +1,5 @@
 import { IsOptional, IsString, IsNumber, IsEnum, Max, Min } from 'class-validator';
-import Currency from 'src/general/enum/currency';
+import Currency from '../../general/enum/currency';
 
 export class UpdateListingDto {
   @IsOptional()

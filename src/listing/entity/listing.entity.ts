@@ -1,4 +1,4 @@
-import Currency from "src/general/enum/currency";
+import Currency from '../../general/enum/currency';
 
 export class ListingEntity {
     id: number;

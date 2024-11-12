@@ -4,7 +4,7 @@ import { ListingEntity } from './entity/listing.entity';
 import { PaginationQueryDto } from '../general/dto/pagination-query.dto';
 import { PaginatedResponseDto } from '../general/dto/paginated-response.dto';
 import { ConfigService } from '@nestjs/config';
-import EnvironmentNames from 'src/general/enum/environment-names';
+import EnvironmentNames from '../general/enum/environment-names';
 import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Injectable()
