@@ -34,13 +34,36 @@ export class ListingService {
   findAll(
     paginationQuery: PaginationQueryDto,
   ): PaginatedResponseDto<ListingEntity> {
-    const { page = 1, pageSize = 10 } = paginationQuery;
+    const {
+      page = 1,
+      pageSize = 10,
+      sortBy,
+      sortOrder = 'asc',
+      search,
+    } = paginationQuery;
+    let listingsArray = Array.from(this.listings.values());
+
+    if (search) {
+      const lowerCaseSearch = search.toLowerCase();
+      listingsArray = listingsArray.filter(
+        (listing) =>
+          listing.title.toLowerCase().includes(lowerCaseSearch) ||
+          listing.description.toLowerCase().includes(lowerCaseSearch) ||
+          listing.location.toLowerCase().includes(lowerCaseSearch),
+      );
+    }
+
+    if (sortBy) {
+      listingsArray.sort((a, b) => {
+        if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
+        if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
     const startIndex = (page - 1) * pageSize;
-    const total = this.listings.size;
-    const data = Array.from(this.listings.values()).slice(
-      startIndex,
-      startIndex + pageSize,
-    );
+    const total = listingsArray.length;
+    const data = listingsArray.slice(startIndex, startIndex + pageSize);
     const hasNextPage = startIndex + pageSize < total;
     const hasPrevPage = startIndex > 0;
 
@@ -57,36 +80,36 @@ export class ListingService {
   }
 
   findOne(id: number): ListingEntity {
-        const listing = this.listings.get(id);
-        if (!listing) {
-        throw new NotFoundException(`Listing with ID ${id} not found`);
-        }
-        return listing;
+    const listing = this.listings.get(id);
+    if (!listing) {
+      throw new NotFoundException(`Listing with ID ${id} not found`);
+    }
+    return listing;
   }
 
-    update(id: number, updateListingDto: UpdateListingDto): ListingEntity {
-        const listing = this.findOne(id);
+  update(id: number, updateListingDto: UpdateListingDto): ListingEntity {
+    const listing = this.findOne(id);
 
-        // make sure if price exist currency should exist
-        if (updateListingDto.price && !updateListingDto.currency) {
-            throw new Error('Currency is required if price is provided');
-        }
-
-        listing.title = updateListingDto.title;
-        listing.description = updateListingDto.description;
-        listing.price = updateListingDto.price;
-        listing.currency = updateListingDto.currency;
-        listing.location = updateListingDto.location;
-        
-        return listing;
+    // make sure if price exist currency should exist
+    if (updateListingDto.price && !updateListingDto.currency) {
+      throw new Error('Currency is required if price is provided');
     }
 
-    remove(id: number): void {
-        if (!this.listings.has(id)) {
-          throw new NotFoundException(`Listing with ID ${id} not found`);
-        }
-        this.listings.delete(id);
-      }
+    listing.title = updateListingDto.title;
+    listing.description = updateListingDto.description;
+    listing.price = updateListingDto.price;
+    listing.currency = updateListingDto.currency;
+    listing.location = updateListingDto.location;
+
+    return listing;
+  }
+
+  remove(id: number): void {
+    if (!this.listings.has(id)) {
+      throw new NotFoundException(`Listing with ID ${id} not found`);
+    }
+    this.listings.delete(id);
+  }
 
   private loadDummyData(): void {
     if (
