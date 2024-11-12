@@ -108,6 +108,7 @@ This process will package your NestJS application into a Docker container and ru
   - `title` (string): The title of the listing.
   - `description` (string): The description of the listing.
   - `price` (number): The price of the listing.
+  - `currency` (string): The currency of the price.
   - `location` (string): The location of the listing.
 - **Response**:
   - `201 Created`: Returns the created listing object.
@@ -123,7 +124,8 @@ This process will package your NestJS application into a Docker container and ru
 - **Request Body**:
   - `title` (string): The title of the listing.
   - `description` (string): The description of the listing.
-  - `price` (number): The price of the listing.
+  - `price` (number): The price of the listing if price is provided currency must be provided too.
+  - `currency` (string): The currency of the price.
   - `location` (string): The location of the listing.
 - **Response**:
   - `200 OK`: Returns the updated listing object.
