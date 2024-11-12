@@ -122,6 +122,7 @@ export class ListingService {
     listing.price = updateListingDto.price;
     listing.currency = updateListingDto.currency;
     listing.location = updateListingDto.location;
+    listing.updatedAt = new Date();
 
     return listing;
   }
