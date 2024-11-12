@@ -43,27 +43,49 @@ export class ListingService {
     } = paginationQuery;
     let listingsArray = Array.from(this.listings.values());
 
-    if (search) {
-      const lowerCaseSearch = search.toLowerCase();
-      listingsArray = listingsArray.filter(
-        (listing) =>
-          listing.title.toLowerCase().includes(lowerCaseSearch) ||
-          listing.description.toLowerCase().includes(lowerCaseSearch) ||
-          listing.location.toLowerCase().includes(lowerCaseSearch),
-      );
-    }
+    listingsArray = this.applySearch(listingsArray, search);
+    listingsArray = this.applySort(listingsArray, sortBy, sortOrder);
 
-    if (sortBy) {
-      listingsArray.sort((a, b) => {
-        if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
-        if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
-        return 0;
-      });
-    }
+    return this.paginate(listingsArray, page, pageSize);
+  }
 
+  private applySearch(
+    listings: ListingEntity[],
+    search?: string,
+  ): ListingEntity[] {
+    if (!search) return listings;
+
+    const lowerCaseSearch = search.toLowerCase();
+    return listings.filter(
+      (listing) =>
+        listing.title.toLowerCase().includes(lowerCaseSearch) ||
+        listing.description.toLowerCase().includes(lowerCaseSearch) ||
+        listing.location.toLowerCase().includes(lowerCaseSearch),
+    );
+  }
+
+  private applySort(
+    listings: ListingEntity[],
+    sortBy?: string,
+    sortOrder: 'asc' | 'desc' = 'asc',
+  ): ListingEntity[] {
+    if (!sortBy) return listings;
+
+    return listings.sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) return sortOrder === 'asc' ? -1 : 1;
+      if (a[sortBy] > b[sortBy]) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+
+  private paginate(
+    listings: ListingEntity[],
+    page: number,
+    pageSize: number,
+  ): PaginatedResponseDto<ListingEntity> {
     const startIndex = (page - 1) * pageSize;
-    const total = listingsArray.length;
-    const data = listingsArray.slice(startIndex, startIndex + pageSize);
+    const total = listings.length;
+    const data = listings.slice(startIndex, startIndex + pageSize);
     const hasNextPage = startIndex + pageSize < total;
     const hasPrevPage = startIndex > 0;
 
