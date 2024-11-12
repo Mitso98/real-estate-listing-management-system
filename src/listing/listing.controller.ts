@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { ListingService } from './listing.service';
 import { ListingEntity } from './entity/listing.entity';
@@ -27,17 +37,17 @@ export class ListingController {
     return this.listingService.findOne(+id);
   }
 
-    @Put(':id')
-    update(
-        @Param('id') id: string,
-        @Body() updateListingDto: UpdateListingDto,
-    ): ListingEntity {
-        return this.listingService.update(+id, updateListingDto);
-    }
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateListingDto: UpdateListingDto,
+  ): ListingEntity {
+    return this.listingService.update(+id, updateListingDto);
+  }
 
-    @Delete(':id')
-    @HttpCode(204)
-    remove(@Param('id') id: string): void {
-        this.listingService.remove(+id);
-    }
+  @Delete(':id')
+  @HttpCode(204)
+  remove(@Param('id') id: string): void {
+    this.listingService.remove(+id);
+  }
 }

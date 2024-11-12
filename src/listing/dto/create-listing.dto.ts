@@ -1,4 +1,13 @@
-import { IsNotEmpty, IsString, IsNumber, Min, Max, Length, IsOptional, IsEnum } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  Min,
+  Max,
+  Length,
+  IsOptional,
+  IsEnum,
+} from 'class-validator';
 import Currency from '../../general/enum/currency';
 
 export class CreateListingDto {

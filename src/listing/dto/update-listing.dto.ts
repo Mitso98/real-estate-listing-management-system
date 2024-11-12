@@ -1,4 +1,11 @@
-import { IsOptional, IsString, IsNumber, IsEnum, Max, Min } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsNumber,
+  IsEnum,
+  Max,
+  Min,
+} from 'class-validator';
 import Currency from '../../general/enum/currency';
 
 export class UpdateListingDto {

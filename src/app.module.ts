@@ -8,8 +8,8 @@ import { validationSchema } from './config/validation.schema';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, 
-      validationSchema
+      isGlobal: true,
+      validationSchema,
     }),
     ListingModule,
   ],
