@@ -61,9 +61,16 @@ This process will package your NestJS application into a Docker container and ru
 
 - **URL**: `/listing`
 - **Method**: `GET`
-- **Description**: Retrieve a list of all real estate listings.
+- **Description**: Retrieve a list of all real estate listings with optional searching, sorting, and pagination.
+- **Query Params**:
+  - `search` (string, optional): Search term to filter listings by title or description.
+  - `page` (number, optional): Page number for pagination.
+  - `pageSize` (number, optional): Number of listings to return per page.
+  - `sortBy` (string, optional): Field to sort listings by (e.g., `price`).
+  - `sortOrder` (string, optional): Sort order for listings (`asc` or `desc`).
+  - `search` (string, optional): Search term to filter listings by any of its values.
 - **Response**:
-  - `200 OK`: Returns an array of listing objects.
+  - `200 OK`: Returns an array of listing objects with pagination metadata.
 
 #### Get Listing by ID
 
