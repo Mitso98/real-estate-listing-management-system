@@ -60,40 +60,83 @@ $ npm run test:cov
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Build the Docker Image
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+To build the Docker image for the application, run the following command in the root directory of your project:
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+1. **Build the Docker image**:
+    ```sh
+    docker build -t management-system .
+    ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2. **Run the Docker container**:
+    ```sh
+    docker run -p 3000:3000 management-system
+    ```
 
-## Resources
+This process will package your NestJS application into a Docker container and run it, making it easy to deploy and manage.
 
-Check out a few resources that may come in handy when working with NestJS:
+## Listing API Documentation
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Endpoints
 
-## Support
+#### Get All Listings
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **URL**: `/listings`
+- **Method**: `GET`
+- **Description**: Retrieve a list of all real estate listings.
+- **Response**:
+  - `200 OK`: Returns an array of listing objects.
 
-## Stay in touch
+#### Get Listing by ID
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **URL**: `/listings/:id`
+- **Method**: `GET`
+- **Description**: Retrieve a single real estate listing by its ID.
+- **URL Params**: 
+  - `id` (string): The ID of the listing.
+- **Response**:
+  - `200 OK`: Returns the listing object.
+  - `404 Not Found`: Listing not found.
 
-## License
+#### Create a New Listing
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- **URL**: `/listings`
+- **Method**: `POST`
+- **Description**: Create a new real estate listing.
+- **Request Body**:
+  - `title` (string): The title of the listing.
+  - `description` (string): The description of the listing.
+  - `price` (number): The price of the listing.
+  - `location` (string): The location of the listing.
+- **Response**:
+  - `201 Created`: Returns the created listing object.
+  - `400 Bad Request`: Invalid request data.
+
+#### Update a Listing
+
+- **URL**: `/listings/:id`
+- **Method**: `PUT`
+- **Description**: Update an existing real estate listing.
+- **URL Params**: 
+  - `id` (string): The ID of the listing.
+- **Request Body**:
+  - `title` (string): The title of the listing.
+  - `description` (string): The description of the listing.
+  - `price` (number): The price of the listing.
+  - `location` (string): The location of the listing.
+- **Response**:
+  - `200 OK`: Returns the updated listing object.
+  - `400 Bad Request`: Invalid request data.
+  - `404 Not Found`: Listing not found.
+
+#### Delete a Listing
+
+- **URL**: `/listings/:id`
+- **Method**: `DELETE`
+- **Description**: Delete a real estate listing.
+- **URL Params**: 
+  - `id` (string): The ID of the listing.
+- **Response**:
+  - `200 OK`: Listing successfully deleted.
+  - `404 Not Found`: Listing not found.
